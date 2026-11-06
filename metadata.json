@@ -1,0 +1,6 @@
+{
+  "name": "AetherTech — Innovation Beyond Limits",
+  "description": "Official website recreation for AetherTech: Ultra-futuristic technology company pioneering Artificial Intelligence, Software Engineering, and Advanced Robotics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

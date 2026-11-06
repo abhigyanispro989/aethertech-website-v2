@@ -1,0 +1,162 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-space: #030714;
+    --cyan-glow: #00f0ff;
+    --blue-glow: #0070f3;
+    --purple-glow: #7928ca;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: #030714;
+    color: #e2e8f0;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  body {
+    overflow-x: hidden;
+    background-color: #030714;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #030714;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 240, 255, 0.2);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #0ea5e9;
+}
+
+/* Futuristic Neon & Glow Utilities */
+.neon-box-glow {
+  box-shadow: 0 0 25px -5px rgba(0, 195, 255, 0.35), inset 0 0 15px -3px rgba(0, 195, 255, 0.2);
+}
+
+.neon-text-glow {
+  text-shadow: 0 0 12px rgba(0, 240, 255, 0.7), 0 0 24px rgba(0, 112, 243, 0.5);
+}
+
+.neon-border-blue {
+  border-color: rgba(56, 189, 248, 0.45);
+  box-shadow: 0 0 20px rgba(14, 165, 233, 0.25);
+}
+
+.neon-border-blue:hover {
+  border-color: rgba(56, 189, 248, 0.85);
+  box-shadow: 0 0 30px rgba(14, 165, 233, 0.45);
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(1deg);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.95) rotate(0deg);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.05) rotate(180deg);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(0.95) rotate(360deg);
+    opacity: 0.6;
+  }
+}
+
+@keyframes spin-slow-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin 30s linear infinite;
+}
+
+.animate-spin-slow-reverse {
+  animation: spin-slow-reverse 45s linear infinite;
+}
+
+/* Pulsing Cyan Portrait Glow Animation */
+@keyframes pulse-cyan-glow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.4), inset 0 0 10px rgba(0, 240, 255, 0.2);
+    border-color: rgba(0, 240, 255, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(0, 240, 255, 0.95), 0 0 50px rgba(0, 112, 243, 0.6), inset 0 0 18px rgba(0, 240, 255, 0.5);
+    border-color: rgba(255, 255, 255, 0.95);
+  }
+}
+
+.pulse-border-hover:hover {
+  animation: pulse-cyan-glow 2s infinite ease-in-out;
+}
+
+/* Scroll-triggered Reveal Animations */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.scroll-reveal.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delays */
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-400 { transition-delay: 400ms; }
+.delay-500 { transition-delay: 500ms; }
+.delay-600 { transition-delay: 600ms; }
+
+/* Accessibility: Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .scroll-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .animate-float,
+  .animate-spin-slow,
+  .animate-spin-slow-reverse,
+  .pulse-border-hover:hover {
+    animation: none !important;
+  }
+}
+
