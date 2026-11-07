@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Send, CheckCircle2, MessageSquare, Shield, Github, Sparkles } from 'lucide-react';
+import { Send, CheckCircle2, MessageSquare, Shield, Github, Sparkles, Loader2, AlertTriangle } from 'lucide-react';
+import { api, isValidEmail } from '../lib/api';
 
 export const ContactSection: React.FC = () => {
   const [formState, setFormState] = useState({
     name: '',
+    email: '',
     organization: '',
     category: 'General Technology',
     message: '',
@@ -11,21 +13,48 @@ export const ContactSection: React.FC = () => {
 
   const [submitted, setSubmitted] = useState(false);
   const [transmissionId, setTransmissionId] = useState('');
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formState.name.trim() || !formState.message.trim()) return;
+    if (sending) return;
+    setError('');
 
-    // Generate clean transmission ID
-    const randomHex = Math.random().toString(16).substring(2, 8).toUpperCase();
-    setTransmissionId(`AETH-TRX-${randomHex}`);
+    if (!formState.name.trim() || !formState.message.trim()) {
+      setError('Name and message are required.');
+      return;
+    }
+    if (formState.email.trim() && !isValidEmail(formState.email)) {
+      setError('That email address does not look valid.');
+      return;
+    }
+
+    setSending(true);
+    const res = await api.contact({
+      name: formState.name,
+      email: formState.email,
+      organization: formState.organization,
+      category: formState.category,
+      message: formState.message,
+    });
+    setSending(false);
+
+    if (!res.ok || !res.data) {
+      setError(res.error || 'Transmission failed. Please retry.');
+      return;
+    }
+    setTransmissionId(res.data.id);
     setSubmitted(true);
   };
 
   const handleReset = () => {
     setSubmitted(false);
+    setTransmissionId('');
+    setError('');
     setFormState({
       name: '',
+      email: '',
       organization: '',
       category: 'General Technology',
       message: '',
@@ -146,6 +175,19 @@ export const ContactSection: React.FC = () => {
 
                   <div>
                     <label className="block text-xs font-mono text-slate-300 uppercase tracking-wider mb-2">
+                      Email Address
+                    </label>
+                    <input
+                      type="email"
+                      value={formState.email}
+                      onChange={(e) => setFormState({ ...formState, email: e.target.value })}
+                      placeholder="name@organization.com"
+                      className="w-full px-4 py-3 rounded-xl bg-slate-950/80 border border-cyan-500/30 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-mono text-slate-300 uppercase tracking-wider mb-2">
                       Inquiry Category
                     </label>
                     <select
@@ -175,12 +217,20 @@ export const ContactSection: React.FC = () => {
                     />
                   </div>
 
+                  {error && (
+                    <div className="flex items-start gap-2 p-3 rounded-xl bg-red-950/40 border border-red-500/40 text-xs text-red-200">
+                      <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
+                      <span>{error}</span>
+                    </div>
+                  )}
+
                   <button
                     type="submit"
-                    className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all cursor-pointer"
+                    disabled={sending}
+                    className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all cursor-pointer disabled:opacity-60 disabled:cursor-wait"
                   >
-                    <Send className="w-4 h-4" />
-                    <span>Transmit Message</span>
+                    {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+                    <span>{sending ? 'Transmitting…' : 'Transmit Message'}</span>
                   </button>
                 </form>
               )}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { X, CheckCircle2, Sparkles, Layers, Bot, ArrowRight, Shield, Terminal, Check } from 'lucide-react';
+import { X, CheckCircle2, Sparkles, Layers, Bot, ArrowRight, Shield, Terminal, Check, Loader2, AlertTriangle } from 'lucide-react';
 import { Division, Product } from '../types';
+import { api, isValidEmail } from '../lib/api';
 
 interface DivisionModalProps {
   division: Division | null;
@@ -191,12 +192,32 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({ product, onClose }
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('Engineer / Developer');
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState('');
+  const [ticket, setTicket] = useState('');
+  const [already, setAlready] = useState(false);
 
   if (!product) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email.trim()) return;
+    if (sending) return;
+    setError('');
+    if (!isValidEmail(email)) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+
+    setSending(true);
+    const res = await api.waitlist({ email, product: product.name, source: `${role}` });
+    setSending(false);
+
+    if (!res.ok || !res.data) {
+      setError(res.error || 'Could not join the waitlist. Please retry.');
+      return;
+    }
+    setTicket(res.data.id);
+    setAlready(res.data.alreadyRegistered);
     setSubmitted(true);
   };
 
@@ -219,8 +240,17 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({ product, onClose }
               Access Granted to Waitlist
             </h3>
             <p className="text-sm text-slate-300 mb-6">
-              You are queued for the upcoming <span className="text-cyan-300 font-semibold">{product.name}</span> private alpha cohort.
+              {already ? (
+                <>You are already on the priority list for <span className="text-cyan-300 font-semibold">{product.name}</span> — nothing else to do.</>
+              ) : (
+                <>You are queued for the upcoming <span className="text-cyan-300 font-semibold">{product.name}</span> private alpha cohort.</>
+              )}
             </p>
+            {ticket && (
+              <div className="inline-block px-3 py-1.5 rounded-lg bg-slate-950 border border-cyan-500/30 font-mono text-[11px] text-cyan-400 mb-5">
+                TICKET: {ticket}
+              </div>
+            )}
             <button
               onClick={onClose}
               className="px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-cyan-600 hover:bg-cyan-500 transition-colors"
@@ -273,11 +303,20 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({ product, onClose }
               </div>
             </div>
 
+            {error && (
+              <div className="flex items-start gap-2 p-3 mb-4 rounded-xl bg-red-950/40 border border-red-500/40 text-xs text-red-200">
+                <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
+                <span>{error}</span>
+              </div>
+            )}
+
             <button
               type="submit"
-              className="w-full py-3 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 shadow-[0_0_15px_rgba(0,240,255,0.4)] transition-all cursor-pointer"
+              disabled={sending}
+              className="w-full py-3 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 shadow-[0_0_15px_rgba(0,240,255,0.4)] transition-all cursor-pointer disabled:opacity-60 disabled:cursor-wait inline-flex items-center justify-center gap-2"
             >
-              Submit Application
+              {sending && <Loader2 className="w-4 h-4 animate-spin" />}
+              <span>{sending ? 'Submitting…' : 'Submit Application'}</span>
             </button>
           </form>
         )}
