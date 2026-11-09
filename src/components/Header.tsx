@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { ChevronDown, ArrowRight, Menu, X, Sparkles, Layers, Bot } from 'lucide-react';
-import { DIVISIONS, PRODUCTS } from '../data/content';
+import { DIVISIONS } from '../data/content';
 
 interface HeaderProps {
   onSelectDivision: (id: string) => void;
-  onSelectProduct: (id: string) => void;
-  onOpenStoryModal: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onSelectDivision, onSelectProduct }) => {
+export const Header: React.FC<HeaderProps> = ({ onSelectDivision }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [divisionsDropdown, setDivisionsDropdown] = useState(false);
 
