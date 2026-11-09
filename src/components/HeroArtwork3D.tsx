@@ -492,8 +492,8 @@ export const HeroArtwork3D: React.FC<HeroArtwork3DProps> = () => {
         }}
       />
 
-      {/* Floating Interactive Controls Pill */}
-      <div className="absolute bottom-4 right-4 z-20 flex items-center gap-2 bg-[#050e24]/90 border border-cyan-500/35 rounded-full px-3.5 py-1.5 backdrop-blur-md shadow-lg shadow-cyan-950/50 text-xs text-slate-300">
+      {/* Optional controls remain available to keyboard and pointer users. */}
+      <div className="absolute bottom-4 right-4 z-20 hidden items-center gap-2 rounded-full border border-cyan-500/35 bg-[#050e24]/90 px-3.5 py-1.5 text-xs text-slate-300 shadow-lg shadow-cyan-950/50 backdrop-blur-md sm:flex">
         <button
           onClick={() => setIsPlaying(!isPlaying)}
           className="flex items-center gap-1.5 px-2 py-0.5 rounded-full hover:text-cyan-300 hover:bg-cyan-500/10 transition-colors"
@@ -520,7 +520,7 @@ export const HeroArtwork3D: React.FC<HeroArtwork3DProps> = () => {
       </div>
 
       {/* Spec Marker */}
-      <div className="absolute top-4 left-4 z-20 hidden sm:flex items-center gap-2 text-[11px] font-mono text-cyan-300/90 bg-slate-950/80 border border-cyan-500/30 px-3.5 py-1.5 rounded-full backdrop-blur-md">
+      <div className="absolute top-4 left-4 z-20 hidden items-center gap-2 rounded-full border border-cyan-500/30 bg-slate-950/80 px-3.5 py-1.5 font-mono text-[11px] text-cyan-300/90 backdrop-blur-md xl:flex">
         <Sparkles className="w-3 h-3 text-cyan-400 animate-pulse" />
         <span>AETHERTECH // PROCEDURAL 3D EMBLEM & ORBITAL MESH</span>
       </div>
