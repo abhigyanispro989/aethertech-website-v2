@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Send, CheckCircle2, MessageSquare, Shield, Github, Sparkles } from 'lucide-react';
 
-export const ContactSection: React.FC = () => {
+interface ContactSectionProps { onOpenSupport?: () => void; }\n\nexport const ContactSection: React.FC<ContactSectionProps> = ({ onOpenSupport }) => {
   const [formState, setFormState] = useState({
     name: '',
     organization: '',
@@ -54,24 +54,23 @@ export const ContactSection: React.FC = () => {
 
             {/* Official Repository Channel */}
             <div className="w-full space-y-4">
-              <a
-                href="https://github.com/abhigyanispro989/aethertech-main-website"
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-4 p-4 rounded-xl bg-[#06122c]/80 border border-cyan-500/30 hover:border-cyan-400 text-slate-200 hover:text-white transition-all group"
+              <button
+                type="button"
+                onClick={onOpenSupport}
+                className="w-full text-left flex items-center gap-4 p-4 rounded-xl bg-[#06122c]/80 border border-cyan-500/30 hover:border-cyan-400 text-slate-200 hover:text-white transition-all group"
               >
                 <div className="w-10 h-10 rounded-lg bg-cyan-950/60 border border-cyan-500/30 flex items-center justify-center text-cyan-400 group-hover:scale-105 transition-transform">
                   <Github className="w-5 h-5" />
                 </div>
                 <div>
                   <div className="text-sm font-bold text-white group-hover:text-cyan-300">
-                    Official GitHub Repository
+                    Contact Support
                   </div>
                   <div className="text-xs text-slate-400 font-mono">
-                    abhigyanispro989/aethertech-main-website
+                    Open the AetherTech support channel
                   </div>
                 </div>
-              </a>
+              </button>
 
               <div className="flex items-center gap-3 p-4 rounded-xl bg-[#040c20]/60 border border-slate-800 text-xs text-slate-400">
                 <Shield className="w-4 h-4 text-cyan-400 shrink-0" />
