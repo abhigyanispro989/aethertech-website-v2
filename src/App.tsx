@@ -56,7 +56,7 @@ export default function App() {
         <ProductsSection onOpenWaitlist={(product) => setSelectedProduct(product)} />
         <InnovationSection />
         <NewsSection />
-        <ContactSection />
+        <ContactSection onOpenSupport={() => setLegalModalType('support')} />
       </main>
       <Footer
         onOpenPrivacyModal={() => setLegalModalType('privacy')}
