@@ -18,15 +18,15 @@ export const DivisionsSection: React.FC<DivisionsSectionProps> = ({ onSelectDivi
       {DIVISIONS.map((division, index) => {
         const Icon = icons[index];
         return (
-          <button key={division.id} onClick={() => onSelectDivision(division.id)} className={`division-card division-card-${index + 1} scroll-reveal delay-${(index + 1) * 100}`}>
+          <article key={division.id} className={`division-card division-card-${index + 1} scroll-reveal delay-${(index + 1) * 100}`}>
             <span className="division-icon"><Icon size={58} strokeWidth={1.65} /></span>
-            <span className="division-content">
+            <div className="division-content">
               <strong>{division.name}</strong>
               <small>{index === 0 ? 'Artificial Intelligence' : index === 1 ? 'Software & Technology' : 'Research & Innovation'}</small>
-              <span className="division-description">{index === 0 ? 'Explore the power of AI to develop intelligent tools and smarter experiences.' : index === 1 ? 'Build innovative software and digital solutions for a smarter tomorrow.' : "Experiment with new ideas and push the boundaries of what’s possible."}</span>
-              <span className="division-link">Explore {index === 0 ? 'AI' : index === 1 ? 'Software' : 'Labs'} <ArrowRight size={16} /></span>
-            </span>
-          </button>
+              <p className="division-description">{index === 0 ? 'Explore the power of AI to develop intelligent tools and smarter experiences.' : index === 1 ? 'Build innovative software and digital solutions for a smarter tomorrow.' : "Experiment with new ideas and push the boundaries of what’s possible."}</p>
+              <button type="button" onClick={() => onSelectDivision(division.id)} className="division-link">Explore {index === 0 ? 'AI' : index === 1 ? 'Software' : 'Labs'} <ArrowRight size={16} /></button>
+            </div>
+          </article>
         );
       })}
     </div>
