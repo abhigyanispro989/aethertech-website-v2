@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Send, CheckCircle2, MessageSquare, Shield, Github, Sparkles } from 'lucide-react';
 
-interface ContactSectionProps { onOpenSupport?: () => void; }\n\nexport const ContactSection: React.FC<ContactSectionProps> = ({ onOpenSupport }) => {
+interface ContactSectionProps { onOpenSupport?: () => void; }
+
+export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenSupport }) => {
   const [formState, setFormState] = useState({
     name: '',
     organization: '',
