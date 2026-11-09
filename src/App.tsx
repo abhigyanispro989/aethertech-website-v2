@@ -42,11 +42,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#030714] text-slate-100 selection:bg-cyan-500/30 selection:text-cyan-200 antialiased overflow-x-hidden font-['Plus_Jakarta_Sans',sans-serif]">
-      <Header
-        onSelectDivision={handleSelectDivisionById}
-        onSelectProduct={handleSelectProductById}
-        onOpenStoryModal={() => setIsStoryModalOpen(true)}
-      />
+      <Header onSelectDivision={handleSelectDivisionById} />
       <main>
         <HeroSection onExploreTechnology={() => scrollToSection('divisions')} />
         <DivisionsSection onSelectDivision={handleSelectDivisionById} />
