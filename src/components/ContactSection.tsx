@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Send, CheckCircle2, MessageSquare, Shield, Github, Sparkles } from 'lucide-react';
+import { Send, CheckCircle2, MessageSquare, Shield, LifeBuoy, Sparkles } from 'lucide-react';
 
 interface ContactSectionProps { onOpenSupport?: () => void; }
 
@@ -54,7 +54,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenSupport })
               Whether you are an engineering partner, researcher, or organization exploring next-generation technology, our founding team reviews every inquiry directly.
             </p>
 
-            {/* Official Repository Channel */}
+            {/* Support channel */}
             <div className="w-full space-y-4">
               <button
                 type="button"
@@ -62,7 +62,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenSupport })
                 className="w-full text-left flex items-center gap-4 p-4 rounded-xl bg-[#06122c]/80 border border-cyan-500/30 hover:border-cyan-400 text-slate-200 hover:text-white transition-all group"
               >
                 <div className="w-10 h-10 rounded-lg bg-cyan-950/60 border border-cyan-500/30 flex items-center justify-center text-cyan-400 group-hover:scale-105 transition-transform">
-                  <Github className="w-5 h-5" />
+                  <LifeBuoy className="w-5 h-5" />
                 </div>
                 <div>
                   <div className="text-sm font-bold text-white group-hover:text-cyan-300">
